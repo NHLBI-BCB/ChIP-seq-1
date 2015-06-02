@@ -1,0 +1,101 @@
+sort -k1,1 -k2,2g ESC-Faire-mm10.bed > ESC-Faire-mm10sort.bed
+sort -k1,1 -k2,2g EpiLC-Faire-mm10.bed > EpiLC-Faire-mm10sort.bed
+
+
+split -l 3698014 t6_4sort.bed t6_4sort
+split -l 3715334 3_3sort.bed 3_3sort
+split -l 3715334 4_4dsort.bed 4_4sortd
+
+scp dips.R_4sort.bed.R_dR_diffstates_1000_500_4b.state_1 Raga@udp075861uds.ucsf.edu:/Users/Raga/Documents/Stem_cell_epigenetics/ChIP_seq/ChromHMM/States_2013/
+scp R_Oct4_MACSpeaks_ann.txt Raga@udp075861uds.ucsf.edu:/Users/Raga/Documents/Stem_cell_epigenetics/ChIP_seq/Peaks/MACS/
+scp -r RK_2013 Raga@udp075861uds.ucsf.edu:/Volumes/RK_SeqData/
+scp -r RK_2013 Raga@udp075861uds.ucsf.edu:C:/Users/Raga/Desktop
+scp -r Sample_RK8_3 Raga@udp075861uds.ucsf.edu:/Users/Raga/Desktop/Project_Blelloch_Lab_RagaKrishnakumar/
+scp dips.R_2sort.R_6_dense_st5.bed blelloch-user@128.218.92.6:/mnt/iscsi_speed/blelloch/Raga/MACS/
+
+New Mini:
+scp dY-FCKO-counts Raga@null-c82a1425a7c6.ucsf.edu:/Users/Raga/Dropbox/Working/new/
+
+***/N/dc2/projects/RNAMap/raga/2012data/ChromHMM/OUTPUT_4factorstate/reorder> 
+
+scp R1_Flag_nomodel_control.bw raga@bijisan.lojik.net:www
+
+bigwig upload to ucsc
+track type=bigWig name="dRCtrl" description="dRCtrl" bigDataUrl=http://raga.bronevetsky.com/R_Flag_nomodel_control.bw
+
+Sort bamfiles
+samtools sort G_8b.bam G_8b_sort.bam
+
+Merge bamfiles
+samtools merge R_Flag.bam RK15-2_sort.bam RK16-2_sort.bam
+samtools merge dR_Flag.bam RK15-4_sort.bam RK7-2_sort.bam
+samtools merge dY_Flag.bam RK7-4_sort.bam RK8-2_sort.bam
+
+Index bamfiles
+samtools index R_4_sort.bam R_4_sort.bai
+
+Path
+export PATH=/N/dc2/projects/RNAMap/raga/samtools/samtools:$PATH
+. ~/.bashrc
+
+scp RKChIP_loop.pl blelloch-user@128.218.92.6:/mnt/iscsi_speed/blelloch/Raga/RK_2013/
+scp countMatchReads.pl blelloch-user@128.218.92.6:/mnt/iscsi_speed/blelloch/Raga/ChromHMM/dips/
+
+
+diff -a -b --brief 4_4b.sam 4_4.sam  
+
+#macs14 -t ChIP.bam -c Control.bam -f BAM -g h -n test -w --call-subpeaks
+
+./macs14 -t 4_1.bam -c 4_4.bam -f BAM -g mm h -n dR_Pol2 test -w --call-subpeaks
+
+macs2 callpeak -t RK7-2.bam -c RK7-1.bam -f BAM -g mm -n R_Flag -B -q 0.01
+
+
+python setup.py install --prefix /mnt/iscsi_speed/blelloch/Raga/MACS2/
+
+scp common.pl Raga@udp075861uds.ucsf.edu:/Users/Raga/Desktop/
+
+awk -F, '{ if ($3 == 3) print $0 }' R_dR_diffstates_250_25
+
+sed -n '200000,200100p' counts.2_3sort.bed.dR_dY_diffstates_500_25_4a
+
+samtools merge out.bam in1.bam in2.bam in3.bam
+samtools merge R-FCKOco.bam FCKO-FlagR.bam R-FCKO.bam
+
+
+qstat -j job_ID -explain E
+
+findMotifsGenome.pl dYallpeaks.txt mm10 dYmotifs/ -size 300 -mask
+
+"R_dR_1.2to6_no_resistant","R_dR_1.2to6_yes"
+
+raga_dips.6_3.dY_dR_6to1.2.3.4_yes_3.bed
+
+loading modules in mason: module load program/version#
+website of modules: https://cybergateway.uits.iu.edu/iugateway/modulesInfo?machine=mason
+
+wig2bed
+wig2bed < GSM632038_ES_NFYA_a.wig > NFYA-ESa.bed
+
+sra to sam
+sam-dump --output-file SRR390728.sam.gz SRR390728
+
+sam-dump --output-file SRR390728.sam.gz SRR390728
+
+bed to bedgraph
+bedtools genomecov -i <bed/gff/vcf> -g <genome> -bga -scale ## > output.file
+
+bedGraphToBigWig in.bedGraph chrom.sizes myBigWig.bw
+
+https://www.dropbox.com/s/7sjfbknsqhq6xfw/test.bed
+https://dl.dropboxusercontent.com/s/7sjfbknsqhq6xfw/test.bed
+
+https://dl.dropboxusercontent.com/s/j1qi5h5z6pza7x1/R-K27a.bw
+https://dl.dropboxusercontent.com/s/nhji7rrfotc3tic/G-K27a.bw
+https://dl.dropboxusercontent.com/s/ye454wls2b6l47m/dY-K27a.bw
+https://dl.dropboxusercontent.com/s/8945unsmd0blwb0/dR-K27a.bw
+
+https://dl.dropboxusercontent.com/s/niy8xdbppx2lnkf/R-K27me3.bw
+https://dl.dropboxusercontent.com/s/5fd0v1jpkok0q7s/dY-K27me3.bw
+
+./toolRunner.sh wigmath.GaussianSmooth -i R-K27a.bw -o R-K27a-smooth.bw

@@ -1,0 +1,62 @@
+perl peakAlign.pl mm10_refseq_strandsort dR_Pol2_Peaks_min dR_Pol2_Peaks2genes_200 200
+
+scp configureHomer.pl blelloch-user@128.218.92.6:/mnt/iscsi_speed/blelloch/Raga/HOMER/
+perl configureHomer.pl -install
+
+bed2pos.pl -o <output> <BED file>
+
+makeTagDirectory /mnt/iscsi_speed/blelloch/Raga/HOMER/dR_H3K4me1/ 2_1sort.bed -forceBED
+makeTagDirectory R_IgG/ R_1dedup.bed -forceBED
+makeTagDirectory R_H3K4me3/ R_3dedup.bed -forceBED
+makeTagDirectory R_H3K27me3/ R_5dedup.bed -forceBED
+makeTagDirectory dR_H3K27ac/ 2_3sort.bed -forceBED
+makeTagDirectory dY_H3K27ac/ 6_3sort.bed -forceBED
+makeTagDirectory dR_H3K27me3/ 2_4sort.bed -forceBED
+makeTagDirectory dY_H3K27me3/ 6_4sort.bed -forceBED
+makeTagDirectory dR_IgG/ 4_1sort.bed -forceBED
+makeTagDirectory dY_IgG/ 8_1sort.bed -forceBED
+makeTagDirectory dR_p300/ 4_2sort.bed -forceBED
+makeTagDirectory dY_p300/ 8_2sort.bed -forceBED
+makeTagDirectory dR_Oct4/ 4_3sort.bed -forceBED
+makeTagDirectory dY_Oct4/ 8_3sort.bed -forceBED
+makeTagDirectory dR_Pol2/ 4_4sort.bed -forceBED
+makeTagDirectory dY_Pol2/ 8_4sort.bed -forceBED
+
+findPeaks dR_Oct4/ -i dR_IgG -region -size 1000 -minDist 150 > dR_Oct4_regpeaks.txt
+findPeaks dR_Oct4/ -style factor -o auto -i dR_IgG -F 0 -L 0 -C 0
+findPeaks dY_Oct4/ -style factor -o auto -i dY_IgG -F 0 -L 0 -C 0
+findPeaks R_H3K4me3/ -style histone -o auto -i R_IgG
+findPeaks dR_H3K4me1/ -i dR_IgG -region -size 1000 -minDist 2500 > dR_H3K4me3_peaks.txt
+
+perl annotatePeaks.pl R_Oct4_MACSpeaks.txt mm10 > R_Oct4_MACSpeaks_ann.txt
+
+perl annotatePeaks.pl dR_Oct4_swipeaks.txt mm10 > dR_Oct4_swipeaks_ann.txt
+
+#final findPeaks used for Oct4
+findPeaks dY_Oct4/ -i dY_IgG -center -F 1.5 -L 0 -C 0 -inputSize 200 -minDist 200 > dY_Oct4_regpeaks.txt
+
+findPeaks dY_Pol2/ -i dY_IgG -center -F 1.5 -L 0 -C 0 -inputSize 200 -minDist 200 > dY_Pol2_peaks.txt
+findPeaks dR_Pol2/ -i dY_IgG -center -F 1.5 -L 0 -C 0 -inputSize 200 -minDist 200 > dR_Pol2_peaks.txt
+
+
+scp dR_H3K27me3_peaks_ann.txt Raga@udp075861uds.ucsf.edu:/Users/Raga/Documents/Stem_cell_epigenetics/ChIP_seq/Peaks/HOMER/
+scp dY_H3K27me3_peaks_ann.txt Raga@udp075861uds.ucsf.edu:/Users/Raga/Documents/Stem_cell_epigenetics/ChIP_seq/Peaks/HOMER/
+
+findPeaks dR_H3K27me3/ -style histone -i dR_IgG > dR_H3K27me3_peaks.txt
+findPeaks dR_H3K4me3/ -style histone -i dY_IgG > dR_H3K4me3_peaks_swi.txt
+findPeaks dY_H3K27me3/ -style histone -i dY_IgG > dY_H3K27me3_peaks.txt
+
+findPeaks dY_H3K27me3/ -size 1000 -minDist 1000 -i dY_IgG > dY_H3K27me3_peaks_1000_mindist1000.txt
+findPeaks dY_H3K4me3/ -size 1000 -i dY_IgG > dY_H3K4me3_peaks_1000.txt
+
+perl annotatePeaks.pl dR_H3K4me3_peaks_1000_swi_mindist1000.txt mm10 > dR_H3K4me3_peaks_1000_swi_mindist1000_ann.txt
+perl annotatePeaks.pl dY_H3K4me3_peaks_1000.txt mm10 > dY_H3K4me3_peaks_1000_ann.txt
+perl annotatePeaks.pl dY_H3K4me3_peaks.txt mm10 > dY_H3K4me3_peaks_ann.txt
+perl annotatePeaks.pl dipsdY_6_yes mm10 > dipsdY_6_yes_ann
+
+perl annotatePeaks.pl R_6_dense_st5nh mm10 > R_6_dense_st5nh_ann
+perl annotatePeaks.pl dR_K4me3_peaks mm10 > dR_K4me3_peaks_ann
+
+
+
+findMotifsGenome.pl R_RdR_forHOMER.txt mm10 R4a_Motifs/

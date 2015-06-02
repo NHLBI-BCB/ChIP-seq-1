@@ -1,0 +1,13 @@
+#$ -S /usr/bin/perl
+
+use strict;
+use warnings;
+
+my @queries = ('/N/dc2/projects/RNAMap/raga/fastq/RK1-1.fastq','/N/dc2/projects/RNAMap/raga/fastq/RK1-2.fastq', '/N/dc2/projects/RNAMap/raga/fastq/RK1-3.fastq', '/N/dc2/projects/RNAMap/raga/fastq/RK1-4.fastq','/N/dc2/projects/RNAMap/raga/fastq/RK2-1.fastq','/N/dc2/projects/RNAMap/raga/fastq/RK2-2.fastq', '/N/dc2/projects/RNAMap/raga/fastq/RK2-3.fastq', '/N/dc2/projects/RNAMap/raga/fastq/RK2-4.fastq','/N/dc2/projects/RNAMap/raga/fastq/RK3-1.fastq','/N/dc2/projects/RNAMap/raga/fastq/RK3-2.fastq', '/N/dc2/projects/RNAMap/raga/fastq/RK3-3.fastq', '/N/dc2/projects/RNAMap/raga/fastq/RK3-4.fastq');
+my @outfiles = ('/N/dc2/projects/RNAMap/raga/fastq/RK1-1.bam','/N/dc2/projects/RNAMap/raga/fastq/RK1-2.bam', '/N/dc2/projects/RNAMap/raga/fastq/RK1-3.bam', '/N/dc2/projects/RNAMap/raga/fastq/RK1-4.bam','/N/dc2/projects/RNAMap/raga/fastq/RK2-1.bam','/N/dc2/projects/RNAMap/raga/fastq/RK2-2.bam', '/N/dc2/projects/RNAMap/raga/fastq/RK2-3.bam', '/N/dc2/projects/RNAMap/raga/fastq/RK2-4.bam','/N/dc2/projects/RNAMap/raga/fastq/RK3-1.bam','/N/dc2/projects/RNAMap/raga/fastq/RK3-2.bam', '/N/dc2/projects/RNAMap/raga/fastq/RK3-3.bam', '/N/dc2/projects/RNAMap/raga/fastq/RK3-4.bam');	
+my $bowtie_executable = '/N/dc2/projects/RNAMap/raga/bowtie2-2.1.0/bowtie2';
+my $genome = '/N/dc2/projects/RNAMap/raga/bowtie2-2.1.0/genomes/mm10';
+
+for(my $i=0; $i<scalar(@queries); $i++) {
+	system "$bowtie_executable -p 4 -q -D 15 -R 2 -L 22 -i S,1,1.15 -k 1 $genome $queries[$i] -S $outfiles[$i]";
+}

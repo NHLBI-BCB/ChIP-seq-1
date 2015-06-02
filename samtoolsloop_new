@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my $samtools_executable = '/N/dc2/projects/RNAMap/raga/samtools/samtools';
+my @queries = ('/N/dc2/projects/RNAMap/raga/fastq/RK7-1.sam','/N/dc2/projects/RNAMap/raga/fastq/RK7-2.sam', '/N/dc2/projects/RNAMap/raga/fastq/RK7-3.sam', '/N/dc2/projects/RNAMap/raga/fastq/RK7-4.sam');
+my @outfiles = ('/N/dc2/projects/RNAMap/raga/samtools/RK7-1.bam','/N/dc2/projects/RNAMap/raga/samtools/RK7-2.bam', '/N/dc2/projects/RNAMap/raga/samtools/RK7-3.bam', '/N/dc2/projects/RNAMap/raga/samtools/RK7-4.bam');
+
+for(my $i=0; $i<scalar(@queries); $i++) {
+	system "$samtools_executable view -bS $queries[$i] > $outfiles[$i]";
+}

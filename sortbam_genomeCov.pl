@@ -1,0 +1,16 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my @queries = ('/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-1.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-2.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-3.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-4.bam,/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-1.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-2.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-3.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-4.bam,/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-1.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-2.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-3.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-4.bam');
+my @midfiles = ('/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-1_sort', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-2_sort', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-3_sort', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-4_sort,/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-1_sort', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-2_sort', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-3_sort', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-4_sort,/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-1_sort', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-2_sort', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-3_sort', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-4_sort');	
+my @endfiles = ('/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-1_sort.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-2_sort.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-3_sort.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-4_sort.bam,/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-1_sort.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-2_sort.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-3_sort.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-4_sort.bam,/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-1_sort.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-2_sort.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-3_sort.bam', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-4_sort.bam');	
+my @outfiles = ('/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-1.bg', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-2.bg', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-3.bg', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK1-4.bg,/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-1.bg', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-2.bg', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-3.bg', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK2-4.bg,/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-1.bg', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-2.bg', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-3.bg', '/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/RK3-4.bg');	
+my $genome = ('/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/mm10.txt');
+
+for(my $i=0; $i<scalar(@queries); $i++) {
+	system "samtools sort $queries[$i] $midfiles[$i]";
+	system "genomeCoverageBed -ibam $endfiles[$i] -g $genome > $outfiles[$i]";
+}
+
