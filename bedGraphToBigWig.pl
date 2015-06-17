@@ -11,3 +11,5 @@ my $sizes = ('/N/dc2/projects/RNAMap/raga/chromhmm/ChromHMM/mm10.chrom.sizes');
 system "bedGraphToBigWig $in $sizes $out;
 
 bedGraphToBigWig in.bedGraph chrom.sizes out.bw
+
+##raga##
