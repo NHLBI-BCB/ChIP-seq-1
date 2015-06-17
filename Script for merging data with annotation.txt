@@ -1,0 +1,28 @@
+#merging data sets and gene annotation
+rm(list=ls())
+setwd("/Users/Raga/Documents/Stem_cell_epigenetics/ChIP_seq/Readcount/")
+#array<-read.table("microarray_expression.txt",sep="\t",header=T,na.strings = "NA")
+#readcount<-read.table("dRanddY_IgG_Pol2_readcount.txt",sep="\t",header=T,na.strings = "NA")
+#dYC<-read.table("8_1readcountmod.txt",sep="\t",header=T,na.strings = "NA")
+#dYP<-read.table("8_4readcountmod.txt",sep="\t",header=T,na.strings = "NA")
+#colnames(data)<- c("chrpeak","startpeak","stoppeak","gene","chrgene","startgene","stopgene")
+data<-read.table("dRanddY_IgG_Pol2_readcount.txt",sep="\t",header=T,na.strings = "NA")
+annotation<-read.table("refseq_list.txt",sep="\t",header=T,na.strings = "NA")
+#colnames(annotation)<- c("bin","gene","chrom","strand","tx","startgene","stopgene")
+all <- merge(data, annotation, all=TRUE)
+#data2 <- merge(dYC, dYP, all=TRUE)
+#write.table(data1,"dR_IgG_Pol2_readcount.txt", sep="\t", quote=FALSE)
+#write.table(data2,"dY_IgG_Pol2_readcount.txt", sep="\t", quote=FALSE)
+#data3<-merge(data1,data2,all=TRUE)
+write.table(all,"AllReadcount_ann.txt",sep="\t",quote=FALSE)
+
+write.table(annmerge,"Epiglist_annotation_merge",sep="\t",quote=FALSE)
+
+
+comp<-match(data[,1], annotation[,1], nomatch=NA)
+write.table(comp,"matchOldNew_IlluminaAnnotation.txt", sep="\t", quote=FALSE)
+
+comp2<-match(annotation[,1], data[,1], nomatch=NA)
+
+
+write.table(raga,"raga.txt", sep="\t", quote=FALSE)
